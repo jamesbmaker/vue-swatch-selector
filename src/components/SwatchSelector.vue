@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!--One big button that closes the selectors nested windows as soon as you click anywhere outside the menue-->
+    <!--it also holds a gey color and opacity to have a faded overlay drawing attention to the options-->
     <div @click="hideBothSelectorTables" id="clickOutside"></div>
 
     <!--display selected color and button to open swatch selector-->
@@ -28,6 +30,7 @@
       </tr>
     </table>
 
+    <!--layer 2 table to select the saturation-->
     <table class="selectorTable" id="saturationSelectorTable">
       <tr>
         <td @click="selectSaturation(0)" class="td" id="sat0"></td>
@@ -54,6 +57,7 @@ export default {
       saturationSelectorTableVisibility: 'hidden',
       clickOutsideVisibility: 'hidden',
       selectedHue: 0,
+      // this table has has collums of hue options 0=greyscale and 1-8 on each being that hues saturation options.
       swatchTable: {
         0: {
           0: '#000000',
@@ -202,6 +206,7 @@ export default {
     }
   },
   methods: {
+    // this makes the faded box overlay and hue selector be drawn
     showHueSelector () {
       this.hueSelectorTableVisibility = 'visible'
       this.clickOutsideVisibility = 'visible'
@@ -212,12 +217,15 @@ export default {
         'clickOutside'
       ).style.visibility = this.clickOutsideVisibility
     },
+    // when you pick a hue it sets the swatch you tapped and this runns to brings up the second menue full of saturation options.
+    // that way if you just pick a hue and tap out of the menue it still has that set and ready to use.
     showSaturationSelector () {
       this.saturationSelectorTableVisibility = 'visible'
       document.getElementById(
         'saturationSelectorTable'
       ).style.visibility = this.saturationSelectorTableVisibility
     },
+    // when you click the faded screen sized box it will hide both tables and store the hue.
     hideBothSelectorTables () {
       this.saturationSelectorTableVisibility = 'hidden'
       this.hueSelectorTableVisibility = 'hidden'
@@ -232,6 +240,7 @@ export default {
         'clickOutside'
       ).style.visibility = this.clickOutsideVisibility
     },
+    // this sets hue as the selected swatch and looks up the swatches from the table populating there respective css values
     selectHue (Hue) {
       this.selectedHue = Hue
       this.selectedSwatch = this.swatchTable[Hue][4]
@@ -282,6 +291,7 @@ export default {
   height: 30px;
   z-index: 1;
 }
+/*If you dont want to see the semitransparent ovelay you can set this opacity to 0% and it will still work fine */
 #clickOutside {
   visibility: hidden;
   position: absolute;
@@ -306,6 +316,7 @@ export default {
   position: absolute;
   bottom: 50px;
   right: 50px;
+  /*these should populate from the table. so that if someone had there own swatch table it would auto populate. for now tho they are just hard coded ^^ */
 }
 #hue0 {
   background-color: #808080;
